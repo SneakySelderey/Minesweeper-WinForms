@@ -1,8 +1,10 @@
+using System.Windows.Forms;
+
 namespace Minesweeper_WinForms
 {
-    public partial class MainMenu : Form
+    public partial class MainMenuForm : Form
     {
-        public MainMenu()
+        public MainMenuForm()
         {
             InitializeComponent();
         }
@@ -16,8 +18,11 @@ namespace Minesweeper_WinForms
             {
                 if (matrixSizeInt > 0 && matrixSizeInt < 20 && minesNumInt > 0 && minesNumInt < matrixSizeInt * matrixSizeInt)
                 {
-                    Core currentGame = new(matrixSizeInt, minesNumInt);  // if game setting were entered correctly, start the game
-                    currentGame.GenerateMatrix();
+                    Core gameCore = new(matrixSizeInt, minesNumInt);  // if game setting were entered correctly, start the game
+                    gameCore.GenerateMatrix();
+                    Form gameForm = new GameForm(this);
+                    gameForm.Show();
+                    Hide();
                 }
             }
         }

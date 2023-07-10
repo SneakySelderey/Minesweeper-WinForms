@@ -10,11 +10,19 @@ using System.Windows.Forms;
 
 namespace Minesweeper_WinForms
 {
-    public partial class Game : Form
+    public partial class GameForm : Form
     {
-        public Game()
+        public Form MainMenu { get; set; }
+
+        public GameForm(Form mainMenu)
         {
             InitializeComponent();
+            MainMenu = mainMenu;
+        }
+
+        private void GameForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            MainMenu.Show();
         }
     }
 }

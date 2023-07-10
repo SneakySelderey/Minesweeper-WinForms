@@ -1,6 +1,6 @@
 ﻿namespace Minesweeper_WinForms
 {
-    partial class MainMenu
+    partial class MainMenuForm
     {
         /// <summary>
         ///  Required designer variable.
