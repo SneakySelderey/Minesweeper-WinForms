@@ -28,19 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            TimerLabel = new Label();
             SuspendLayout();
+            // 
+            // TimerLabel
+            // 
+            TimerLabel.AutoSize = true;
+            TimerLabel.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
+            TimerLabel.Location = new Point(634, 1064);
+            TimerLabel.Name = "TimerLabel";
+            TimerLabel.Size = new Size(448, 51);
+            TimerLabel.TabIndex = 0;
+            TimerLabel.Text = "Time elapsed: 0 min 0 sec";
             // 
             // GameForm
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1636, 1124);
+            Controls.Add(TimerLabel);
             Name = "GameForm";
             Text = "GameForm";
             FormClosed += GameForm_FormClosed;
+            Load += GameForm_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label TimerLabel;
     }
 }
