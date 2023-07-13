@@ -53,18 +53,18 @@ namespace Minesweeper_WinForms
             {
                 for (int j = 0; j < GameCoreInstance.MatrixSize; j++)
                 {
-                    Button newButton = new() // Generate new button with correct 
+                    Button newButton = new() // Generate new button with correct properties...
                     {
                         Dock = DockStyle.Fill,
                         Margin = new Padding(0, 0, 0, 0)
                     };
-                    FieldTable.Controls.Add(newButton, i, j);
+                    FieldTable.Controls.Add(newButton, i, j); // ...and add it to the table
                 }
             }
 
             Timer = new();
-            Timer.Interval = 1000;
-            Timer.Elapsed += Timer_Elapsed;
+            Timer.Interval = 1000; // timer will generate an event every 1 second
+            Timer.Elapsed += Timer_Elapsed; // add a method called when an event occurs
             Timer.Enabled = true;
         }
 
