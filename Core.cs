@@ -9,7 +9,7 @@ namespace Minesweeper_WinForms
 {
     internal class Core
     {
-        private int[,] matrix; // this is minefield
+        public int[,] Matrix { get; set; } // this is minefield
         public int MatrixSize { get; set; }
         public int MinesNum { get; set; }
 
@@ -22,12 +22,12 @@ namespace Minesweeper_WinForms
         internal void GenerateMatrix()
         {
             Random rnd = new();
-            matrix = new int[MatrixSize, MatrixSize];
+            Matrix = new int[MatrixSize, MatrixSize];
             for (int i = 0; i < MatrixSize; i++)
             {
                 for (int j = 0; j < MatrixSize; j++)
                 {
-                    matrix[i, j] = 0; // generate empty minefield
+                    Matrix[i, j] = 0; // generate empty minefield
                 }
             }
 
@@ -44,7 +44,7 @@ namespace Minesweeper_WinForms
             while (c < MinesNum)
             {
                 int index = rnd.Next(0, availableCoords.Count); // pick a random set of coords from the list...
-                matrix[availableCoords[index][0], availableCoords[index][1]] = -1; // ...place a mine there
+                Matrix[availableCoords[index][0], availableCoords[index][1]] = -1; // ...place a mine there
                 c++;
                 for (int i = availableCoords[index][0] - 1; i <= availableCoords[index][0] + 1; i++)
                 {
@@ -52,8 +52,8 @@ namespace Minesweeper_WinForms
                     {
                         try
                         {
-                            if (matrix[i, j] != -1)
-                                matrix[i, j] += 1; // update a counter in all the tiles around the new mine
+                            if (Matrix[i, j] != -1)
+                                Matrix[i, j] += 1; // update a counter in all the tiles around the new mine
                         }
                         catch (IndexOutOfRangeException)
                         {
@@ -74,9 +74,20 @@ namespace Minesweeper_WinForms
             //}
         }
 
-        //internal bool CheckTile(int row, int column, List<List<int>> result)
+        internal bool CheckGameLost(int row, int column)
+        {
+            if (Matrix[row, column] == -1)
+                return true;
+            else
+                return false;
+        }
+
+        //internal List<List<int>> CheckTile(int row, int column, List<List<int>> changedCells)
         //{
-        //    if (matrix[row][column])
+        //    if (matrix[row, column] == -1)
+        //    {
+
+        //    }
         //}
     }
 }

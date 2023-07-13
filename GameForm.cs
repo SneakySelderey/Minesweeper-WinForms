@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Minesweeper_WinForms.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -75,8 +76,33 @@ namespace Minesweeper_WinForms
 
         private void ClickOnButton(object sender, MouseEventArgs e)
         {
+            bool gameLost = GameCoreInstance.CheckGameLost(FieldTable.GetRow((Button)sender), FieldTable.GetColumn((Button)sender));
+            if (gameLost)
+            {
+                Timer.Stop();
+                int[,] matrix = GameCoreInstance.Matrix;
+                for (int i = 0; i < GameCoreInstance.MatrixSize; i++)
+                {
+                    for (int j = 0; j < GameCoreInstance.MatrixSize; j++)
+                    {
+                        Button button = (Button)FieldTable.GetControlFromPosition(j, i);
+                        button.Enabled = false;
+                        if (matrix[i, j] == -1)
+                        {
+                            button.BackColor = Color.Red;
+                            button.Image = Resources.mine;
+                        }
+                        else if (matrix[i, j] != 0)
+                        {
+                            button.Text = Convert.ToString(matrix[i, j]);
+                            button.Font = new Font("Segoe UI", 16);
+                        }
+                    }
+                }
+                MessageBox.Show("You lost!");
+            }
             // TODO: call the tile check method from core here
-            // ex.: CheckCell(tableLayoutPanel.GetRow((Button)sender), tableLayoutPanel.GetColumn((Button)sender))
+            // ex.: CheckCell(FieldTable.GetRow((Button)sender), FieldTable.GetColumn((Button)sender))
             //Button button = (Button)sender;
             //button.Enabled = false;
             //button.BackColor = Color.LightGray;
