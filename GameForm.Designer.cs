@@ -28,14 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
+            FieldTable = new TableLayoutPanel();
             TimerLabel = new Label();
             SuspendLayout();
             // 
+            // FieldTable
+            // 
+            FieldTable.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            FieldTable.ColumnCount = 2;
+            FieldTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            FieldTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            FieldTable.Location = new Point(0, -1);
+            FieldTable.Name = "FieldTable";
+            FieldTable.RowCount = 2;
+            FieldTable.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            FieldTable.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            FieldTable.Size = new Size(1636, 1062);
+            FieldTable.TabIndex = 1;
+            // 
             // TimerLabel
             // 
+            TimerLabel.Anchor = AnchorStyles.Bottom;
             TimerLabel.AutoSize = true;
             TimerLabel.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            TimerLabel.Location = new Point(634, 1064);
+            TimerLabel.Location = new Point(595, 1064);
             TimerLabel.Name = "TimerLabel";
             TimerLabel.Size = new Size(448, 51);
             TimerLabel.TabIndex = 0;
@@ -47,6 +63,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1636, 1124);
             Controls.Add(TimerLabel);
+            Controls.Add(FieldTable);
             Name = "GameForm";
             Text = "GameForm";
             FormClosed += GameForm_FormClosed;
@@ -56,7 +73,7 @@
         }
 
         #endregion
-
+        private TableLayoutPanel FieldTable;
         private Label TimerLabel;
     }
 }
