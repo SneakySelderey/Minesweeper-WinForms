@@ -28,23 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            FieldTable = new TableLayoutPanel();
             TimerLabel = new Label();
+            FieldTable = new TableLayoutPanel();
             SuspendLayout();
-            // 
-            // FieldTable
-            // 
-            FieldTable.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            FieldTable.ColumnCount = 2;
-            FieldTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            FieldTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            FieldTable.Location = new Point(0, -1);
-            FieldTable.Name = "FieldTable";
-            FieldTable.RowCount = 2;
-            FieldTable.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            FieldTable.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            FieldTable.Size = new Size(1636, 1062);
-            FieldTable.TabIndex = 1;
             // 
             // TimerLabel
             // 
@@ -57,13 +43,27 @@
             TimerLabel.TabIndex = 0;
             TimerLabel.Text = "Time elapsed: 0 min 0 sec";
             // 
+            // FieldTable
+            // 
+            FieldTable.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            FieldTable.AutoScroll = true;
+            FieldTable.AutoSize = true;
+            FieldTable.ColumnCount = 1;
+            FieldTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            FieldTable.Location = new Point(1, -1);
+            FieldTable.Name = "FieldTable";
+            FieldTable.RowCount = 1;
+            FieldTable.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            FieldTable.Size = new Size(1637, 1062);
+            FieldTable.TabIndex = 1;
+            // 
             // GameForm
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1636, 1124);
-            Controls.Add(TimerLabel);
             Controls.Add(FieldTable);
+            Controls.Add(TimerLabel);
             Name = "GameForm";
             Text = "GameForm";
             FormClosed += GameForm_FormClosed;
@@ -73,7 +73,7 @@
         }
 
         #endregion
-        private TableLayoutPanel FieldTable;
         private Label TimerLabel;
+        private TableLayoutPanel FieldTable;
     }
 }

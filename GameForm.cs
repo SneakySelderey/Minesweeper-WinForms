@@ -33,6 +33,35 @@ namespace Minesweeper_WinForms
 
         private void GameForm_Load(object sender, EventArgs e)  // Initialize timer when form loads
         {
+            float cellSize = 100 / GameCoreInstance.MatrixSize;
+            var rowStyles = FieldTable.RowStyles;
+            var columnStyles = FieldTable.ColumnStyles;
+            FieldTable.RowCount = GameCoreInstance.MatrixSize;
+            FieldTable.ColumnCount = GameCoreInstance.MatrixSize;
+
+            rowStyles[0].SizeType = SizeType.Percent;
+            rowStyles[0].Height = cellSize;
+            columnStyles[0].SizeType = SizeType.Percent;
+            columnStyles[0].Width = cellSize;
+            for (int i = 0; i < GameCoreInstance.MatrixSize - 1; i++)
+            {
+                rowStyles.Add(new RowStyle(SizeType.Percent, cellSize));
+                columnStyles.Add(new ColumnStyle(SizeType.Percent, cellSize));
+            }
+
+            for (int i = 0; i < GameCoreInstance.MatrixSize; i++)
+            {
+                for (int j = 0; j < GameCoreInstance.MatrixSize; j++)
+                {
+                    Button newButton = new()
+                    {
+                        Dock = DockStyle.Fill,
+                        Margin = new Padding(0, 0, 0, 0)
+                    };
+                    FieldTable.Controls.Add(newButton, i, j);
+                }
+            }
+
             Timer = new();
             Timer.Interval = 1000;
             Timer.Elapsed += Timer_Elapsed;
