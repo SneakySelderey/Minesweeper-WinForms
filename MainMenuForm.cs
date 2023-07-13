@@ -20,7 +20,7 @@ namespace Minesweeper_WinForms
                 {
                     Core gameCore = new(matrixSizeInt, minesNumInt);  // if game setting were entered correctly, start the game
                     gameCore.GenerateMatrix();
-                    Form gameForm = new GameForm(this);
+                    Form gameForm = new GameForm(this, gameCore);
                     gameForm.Show();
                     Hide();
                 }

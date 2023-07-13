@@ -12,15 +12,17 @@ namespace Minesweeper_WinForms
 {
     public partial class GameForm : Form
     {
-        public Form MainMenu { get; set; }  // Here we store parent main menu form in order to show it again after this window is closed
-        public System.Timers.Timer Timer { get; set; }
-        public int Minutes { get; set; }
-        public int Seconds { get; set; }
+        internal Form MainMenu { get; set; }  // Here we store parent main menu form in order to show it again after this window is closed
+        internal Core GameCoreInstance { get; set; }  // Here we store game core instance to actually play the game
+        internal System.Timers.Timer Timer { get; set; }
+        internal int Minutes { get; set; }
+        internal int Seconds { get; set; }
 
-        public GameForm(Form mainMenu)
+        internal GameForm(Form mainMenu, Core core)
         {
             InitializeComponent();
             MainMenu = mainMenu;
+            GameCoreInstance = core;
         }
 
         private void GameForm_FormClosed(object sender, FormClosedEventArgs e)  // Stop timer and show main menu when window is closed
