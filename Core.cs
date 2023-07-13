@@ -8,11 +8,11 @@ namespace Minesweeper_WinForms
 {
     internal class Core
     {
-        private bool[,] matrix;  // this is minefield
+        private bool[,] matrix; // this is minefield
         public int MatrixSize { get; set; }
         public int MinesNum { get; set; }
 
-        internal Core(int matrixSize, int minesNum)  // size of matrix (n * n) and number of mines on the field
+        internal Core(int matrixSize, int minesNum) // size of matrix (n * n) and number of mines on the field
         {
             MatrixSize = matrixSize;
             MinesNum = minesNum;
@@ -26,7 +26,7 @@ namespace Minesweeper_WinForms
             {
                 for (int j = 0; j < MatrixSize; j++)
                 {
-                    matrix[i, j] = false;  // generate empty minefield
+                    matrix[i, j] = false; // generate empty minefield
                 }
             }
             int c = 0;
@@ -35,7 +35,7 @@ namespace Minesweeper_WinForms
                 List<int> mineCoord = new() { rnd.Next(0, MatrixSize), rnd.Next(0, MatrixSize) };
                 if (matrix[mineCoord[0], mineCoord[1]] == false)
                 {
-                    matrix[mineCoord[0], mineCoord[1]] = true;  // generate a given number of mines in random tiles of the field
+                    matrix[mineCoord[0], mineCoord[1]] = true; // generate a given number of mines in random tiles of the field
                     c++;
                 }
             }
