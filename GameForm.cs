@@ -62,10 +62,21 @@ namespace Minesweeper_WinForms
                 }
             }
 
+            foreach (Button button in FieldTable.Controls)
+            {
+                button.MouseClick += new MouseEventHandler(ClickOnButton); // add a custom event for every buttom generated
+            }
+
             Timer = new();
             Timer.Interval = 1000; // timer will generate an event every 1 second
             Timer.Elapsed += Timer_Elapsed; // add a method called when an event occurs
             Timer.Enabled = true;
+        }
+
+        private void ClickOnButton(object sender, MouseEventArgs e)
+        {
+            // TODO: call the tile check method from core here
+            // ex.: CheckCell(tableLayoutPanel.GetRow((Panel)sender), tableLayoutPanel.GetColumn((Panel)sender))
         }
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)  // Update timer label text
