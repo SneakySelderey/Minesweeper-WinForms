@@ -76,7 +76,10 @@ namespace Minesweeper_WinForms
         private void ClickOnButton(object sender, MouseEventArgs e)
         {
             // TODO: call the tile check method from core here
-            // ex.: CheckCell(tableLayoutPanel.GetRow((Panel)sender), tableLayoutPanel.GetColumn((Panel)sender))
+            // ex.: CheckCell(tableLayoutPanel.GetRow((Button)sender), tableLayoutPanel.GetColumn((Button)sender))
+            //Button button = (Button)sender;
+            //button.Enabled = false;
+            //button.BackColor = Color.LightGray;
         }
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)  // Update timer label text
