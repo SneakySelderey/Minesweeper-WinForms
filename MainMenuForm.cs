@@ -24,6 +24,10 @@ namespace Minesweeper_WinForms
                     gameForm.Show();
                     Hide();
                 }
+                else
+                {
+                    MessageBox.Show("Wrong game settings!");
+                }
             }
         }
     }
