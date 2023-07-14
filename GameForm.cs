@@ -76,11 +76,13 @@ namespace Minesweeper_WinForms
 
         private void ClickOnButton(object sender, MouseEventArgs e)
         {
-            bool gameLost = GameCoreInstance.CheckGameLost(FieldTable.GetRow((Button)sender), FieldTable.GetColumn((Button)sender));
-            if (gameLost)
+            int[,] matrix = GameCoreInstance.Matrix;
+            int row = FieldTable.GetRow((Button)sender);
+            int column = FieldTable.GetColumn((Button)sender);
+            bool gameLost = GameCoreInstance.CheckGameLost(row, column);
+            if (gameLost) // if game is lost, open all the tiles
             {
                 Timer.Stop();
-                int[,] matrix = GameCoreInstance.Matrix;
                 for (int i = 0; i < GameCoreInstance.MatrixSize; i++)
                 {
                     for (int j = 0; j < GameCoreInstance.MatrixSize; j++)
@@ -101,11 +103,16 @@ namespace Minesweeper_WinForms
                 }
                 MessageBox.Show("You lost!");
             }
-            // TODO: call the tile check method from core here
-            // ex.: CheckCell(FieldTable.GetRow((Button)sender), FieldTable.GetColumn((Button)sender))
-            //Button button = (Button)sender;
-            //button.Enabled = false;
-            //button.BackColor = Color.LightGray;
+            else
+            {
+                List<List<int>> openedCells = GameCoreInstance.CheckTiles(row, column, new List<List<int>> { });
+                foreach (List<int> coords in openedCells)
+                {
+                    Button button = (Button)FieldTable.GetControlFromPosition(coords[1], coords[0]);
+                    button.Text = Convert.ToString(matrix[coords[0], coords[1]]);
+                    button.Enabled = false;
+                }
+            }
         }
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)  // Update timer label text
