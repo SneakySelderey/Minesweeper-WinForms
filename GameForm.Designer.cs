@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameForm));
             TimerLabel = new Label();
             FieldTable = new TableLayoutPanel();
             FlagsCountLabel = new Label();
@@ -77,6 +78,7 @@
             Controls.Add(FlagsCountLabel);
             Controls.Add(FieldTable);
             Controls.Add(TimerLabel);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "GameForm";
             Text = "GameForm";
             FormClosed += GameForm_FormClosed;
