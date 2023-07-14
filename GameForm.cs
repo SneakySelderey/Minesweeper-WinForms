@@ -80,67 +80,67 @@ namespace Minesweeper_WinForms
             int row = FieldTable.GetRow((Button)sender);
             int column = FieldTable.GetColumn((Button)sender);
             Button button = (Button)FieldTable.GetControlFromPosition(column, row);
-            if (e.Button == MouseButtons.Left && button.Image == null && button.BackColor != Color.LightGray)
+            if (e.Button == MouseButtons.Left && button.Image == null && button.BackColor != Color.LightGray) // Open tiles on left click. If the button is flagged or it is painted grey, do not respond
             {
                 int[,] matrix = GameCoreInstance.Matrix;
                 bool gameLost = GameCoreInstance.CheckGameLost(row, column);
-                if (gameLost) // if game is lost, open all the tiles
+                if (gameLost) // if the game is lost, open all the tiles
                 {
                     Timer.Stop();
-                    button.BackColor = Color.Red;
+                    button.BackColor = Color.Red; // paint the tile, where the player failed, in red...
                     for (int i = 0; i < GameCoreInstance.MatrixSize; i++)
                     {
                         for (int j = 0; j < GameCoreInstance.MatrixSize; j++)
                         {
                             button = (Button)FieldTable.GetControlFromPosition(j, i);
                             if (button.BackColor != Color.Red)
-                                button.BackColor = Color.LightGray;
+                                button.BackColor = Color.LightGray; // ...paint all the others tiles in grey
                             if (matrix[i, j] == -1 && button.Image == null)
                             {
-                                button.Image = Resources.mine;
+                                button.Image = Resources.mine; // show mines
                             }
                             else if (matrix[i, j] != 0 && button.Image == null)
                             {
-                                button.Text = Convert.ToString(matrix[i, j]);
+                                button.Text = Convert.ToString(matrix[i, j]); // mark tiles near the mines with numbers
                                 button.Font = new Font("Segoe UI", 16);
                             }
                         }
                     }
                     MessageBox.Show("You lost!");
                 }
-                else
+                else // if the game continues, open part of the tiles
                 {
-                    List<List<int>> openedCells = GameCoreInstance.CheckTiles(row, column, new List<List<int>> { });
-                    foreach (List<int> coords in openedCells)
+                    List<List<int>> openedCells = GameCoreInstance.CheckTiles(row, column, new List<List<int>> { }); // get tiles which need to be opened
+                    foreach (List<int> coords in openedCells) // open every tile in the list...
                     {
                         button = (Button)FieldTable.GetControlFromPosition(coords[1], coords[0]);
-                        button.BackColor = Color.LightGray;
+                        button.BackColor = Color.LightGray; // ...paint them gray...
                         if (matrix[coords[0], coords[1]] != 0)
-                            button.Text = Convert.ToString(matrix[coords[0], coords[1]]);
+                            button.Text = Convert.ToString(matrix[coords[0], coords[1]]); // ...mark if needed...
                         GameCoreInstance.DisabledTiles += 1;
                     }
                 }
             }
-            else if (e.Button == MouseButtons.Right && button.BackColor != Color.LightGray && button.BackColor != Color.Red && GameCoreInstance.GameWonFlag == false)
+            else if (e.Button == MouseButtons.Right && button.BackColor != Color.LightGray && button.BackColor != Color.Red && GameCoreInstance.GameWonFlag == false) // Place flag on right click. If the button is painted grey or it is painted red or the game is already won, do not respond
             {
                 button = (Button)FieldTable.GetControlFromPosition(column, row);
-                if (button.Image == null)
+                if (button.Image == null) // there is no flag on the tile
                 {
-                    button.Image = Resources.flag;
+                    button.Image = Resources.flag; // place flag
                     GameCoreInstance.DisabledTiles += 1;
                     GameCoreInstance.FlagsCounter -= 1;
-                    FlagsCountLabel.Text = $"Mines left: {Convert.ToString(GameCoreInstance.FlagsCounter)}";
+                    FlagsCountLabel.Text = $"Mines left: {Convert.ToString(GameCoreInstance.FlagsCounter)}"; // update counter's lable
                 }
-                else
+                else // there is a flag on the tile
                 {
-                    button.Image = null;
+                    button.Image = null; // remove the flag
                     GameCoreInstance.DisabledTiles -= 1;
                     GameCoreInstance.FlagsCounter += 1;
-                    FlagsCountLabel.Text = $"Mines left: {Convert.ToString(GameCoreInstance.FlagsCounter)}";
+                    FlagsCountLabel.Text = $"Mines left: {Convert.ToString(GameCoreInstance.FlagsCounter)}"; // update counter's lable
                 }
             }
 
-            if (GameCoreInstance.CheckGameWon() && GameCoreInstance.GameWonFlag == false)
+            if (GameCoreInstance.CheckGameWon() && GameCoreInstance.GameWonFlag == false) // if all mines are marked with flags
             {
                 Timer.Stop();
                 GameCoreInstance.GameWonFlag = true;

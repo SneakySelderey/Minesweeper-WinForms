@@ -14,8 +14,8 @@ namespace Minesweeper_WinForms
         public int[,] MatrixEnabledDisabled { get; set; } // this is minefield's enabled and disabled tiles, where 1 means enabled, 0 - disabled tile
         public int MatrixSize { get; set; }
         public int MinesNum { get; set; }
-        public int DisabledTiles { get; set; }
-        public int FlagsCounter { get; set; }
+        public int DisabledTiles { get; set; } // used to count how many tiles are already cleared or flagged. If DisabledTiles == MatrixSize * MatrixSize, game is won.
+        public int FlagsCounter { get; set; } // used to display how many mines are left
         public bool GameWonFlag { get; set; }
 
         internal Core(int matrixSize, int minesNum) // size of matrix (n * n) and number of mines on the field
@@ -91,7 +91,7 @@ namespace Minesweeper_WinForms
                 return false;
         }
 
-        internal bool CheckGameWon()
+        internal bool CheckGameWon() // check if all the tiles are marked or flagged
         {
             if (DisabledTiles == MatrixSize * MatrixSize)
                 return true;
@@ -99,21 +99,21 @@ namespace Minesweeper_WinForms
                 return false;
         }
 
-        internal List<List<int>> CheckTiles(int row, int column, List<List<int>> changedCells)
+        internal List<List<int>> CheckTiles(int row, int column, List<List<int>> changedCells) // open some tiles
         {
             try
             {
                 if (changedCells.Contains(new List<int> { row, column }) == false && MatrixEnabledDisabled[row, column] == 1)
                 {
-                    changedCells.Add(new List<int> { row, column });
-                    MatrixEnabledDisabled[row, column] = 0;
+                    changedCells.Add(new List<int> { row, column }); // add a tile to a list of cells to open in UI
+                    MatrixEnabledDisabled[row, column] = 0; // update enabled-disabled state matrix
                     if (Matrix[row, column] == 0)
                     {
                         for (int i = row - 1; i <= row + 1; i++)
                         {
                             for (int j = column - 1; j <= column + 1; j++)
                             {
-                                CheckTiles(i, j, changedCells);
+                                CheckTiles(i, j, changedCells); // a recursive function, check all the surrounding tiles
                             }
                         }
                     }
