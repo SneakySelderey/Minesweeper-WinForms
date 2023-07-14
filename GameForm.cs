@@ -65,7 +65,7 @@ namespace Minesweeper_WinForms
 
             foreach (Button button in FieldTable.Controls)
             {
-                button.MouseClick += new MouseEventHandler(ClickOnButton); // add a custom event for every buttom generated
+                button.MouseDown += new MouseEventHandler(MouseDownButton); // add a custom event for every buttom generated
             }
 
             Timer = new();
@@ -74,43 +74,58 @@ namespace Minesweeper_WinForms
             Timer.Enabled = true;
         }
 
-        private void ClickOnButton(object sender, MouseEventArgs e)
+        private void MouseDownButton(object sender, MouseEventArgs e)
         {
-            int[,] matrix = GameCoreInstance.Matrix;
             int row = FieldTable.GetRow((Button)sender);
             int column = FieldTable.GetColumn((Button)sender);
-            bool gameLost = GameCoreInstance.CheckGameLost(row, column);
-            if (gameLost) // if game is lost, open all the tiles
+            if (e.Button == MouseButtons.Left)
             {
-                Timer.Stop();
-                for (int i = 0; i < GameCoreInstance.MatrixSize; i++)
+                int[,] matrix = GameCoreInstance.Matrix;
+                bool gameLost = GameCoreInstance.CheckGameLost(row, column);
+                if (gameLost) // if game is lost, open all the tiles
                 {
-                    for (int j = 0; j < GameCoreInstance.MatrixSize; j++)
+                    Timer.Stop();
+                    for (int i = 0; i < GameCoreInstance.MatrixSize; i++)
                     {
-                        Button button = (Button)FieldTable.GetControlFromPosition(j, i);
-                        button.Enabled = false;
-                        if (matrix[i, j] == -1)
+                        for (int j = 0; j < GameCoreInstance.MatrixSize; j++)
                         {
-                            button.BackColor = Color.Red;
-                            button.Image = Resources.mine;
-                        }
-                        else if (matrix[i, j] != 0)
-                        {
-                            button.Text = Convert.ToString(matrix[i, j]);
-                            button.Font = new Font("Segoe UI", 16);
+                            Button button = (Button)FieldTable.GetControlFromPosition(j, i);
+                            button.Enabled = false;
+                            if (matrix[i, j] == -1)
+                            {
+                                button.BackColor = Color.Red;
+                                button.Image = Resources.mine;
+                            }
+                            else if (matrix[i, j] != 0)
+                            {
+                                button.Text = Convert.ToString(matrix[i, j]);
+                                button.Font = new Font("Segoe UI", 16);
+                            }
                         }
                     }
+                    MessageBox.Show("You lost!");
                 }
-                MessageBox.Show("You lost!");
-            }
-            else
-            {
-                List<List<int>> openedCells = GameCoreInstance.CheckTiles(row, column, new List<List<int>> { });
-                foreach (List<int> coords in openedCells)
+                else
                 {
-                    Button button = (Button)FieldTable.GetControlFromPosition(coords[1], coords[0]);
-                    button.Text = Convert.ToString(matrix[coords[0], coords[1]]);
-                    button.Enabled = false;
+                    List<List<int>> openedCells = GameCoreInstance.CheckTiles(row, column, new List<List<int>> { });
+                    foreach (List<int> coords in openedCells)
+                    {
+                        Button button = (Button)FieldTable.GetControlFromPosition(coords[1], coords[0]);
+                        button.Text = Convert.ToString(matrix[coords[0], coords[1]]);
+                        button.Enabled = false;
+                    }
+                }
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                Button button = (Button)FieldTable.GetControlFromPosition(column, row);
+                if (button.Image == null)
+                {
+                    button.Image = Resources.flag;
+                }
+                else
+                {
+                    button.Image = null;
                 }
             }
         }
