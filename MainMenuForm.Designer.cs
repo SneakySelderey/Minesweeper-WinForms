@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenuForm));
             MainLabel = new Label();
             InstructionLabel = new Label();
             StartButton = new Button();
@@ -103,6 +104,7 @@
             Controls.Add(InstructionLabel);
             Controls.Add(MainLabel);
             DoubleBuffered = true;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainMenuForm";
             Text = "Main Menu";
             ResumeLayout(false);
