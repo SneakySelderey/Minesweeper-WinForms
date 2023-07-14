@@ -87,6 +87,14 @@ namespace Minesweeper_WinForms
                 return false;
         }
 
+        internal bool CheckGameWon()
+        {
+            if (DisabledTiles == MatrixSize * MatrixSize)
+                return true;
+            else
+                return false;
+        }
+
         internal List<List<int>> CheckTiles(int row, int column, List<List<int>> changedCells)
         {
             try

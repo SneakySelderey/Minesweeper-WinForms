@@ -78,25 +78,27 @@ namespace Minesweeper_WinForms
         {
             int row = FieldTable.GetRow((Button)sender);
             int column = FieldTable.GetColumn((Button)sender);
-            if (e.Button == MouseButtons.Left)
+            Button button = (Button)FieldTable.GetControlFromPosition(column, row);
+            if (e.Button == MouseButtons.Left && button.Image == null && button.BackColor != Color.LightGray)
             {
                 int[,] matrix = GameCoreInstance.Matrix;
                 bool gameLost = GameCoreInstance.CheckGameLost(row, column);
                 if (gameLost) // if game is lost, open all the tiles
                 {
                     Timer.Stop();
+                    button.BackColor = Color.Red;
                     for (int i = 0; i < GameCoreInstance.MatrixSize; i++)
                     {
                         for (int j = 0; j < GameCoreInstance.MatrixSize; j++)
                         {
-                            Button button = (Button)FieldTable.GetControlFromPosition(j, i);
-                            button.Enabled = false;
-                            if (matrix[i, j] == -1)
+                            button = (Button)FieldTable.GetControlFromPosition(j, i);
+                            if (button.BackColor != Color.Red)
+                                button.BackColor = Color.LightGray;
+                            if (matrix[i, j] == -1 && button.Image == null)
                             {
-                                button.BackColor = Color.Red;
                                 button.Image = Resources.mine;
                             }
-                            else if (matrix[i, j] != 0)
+                            else if (matrix[i, j] != 0 && button.Image == null)
                             {
                                 button.Text = Convert.ToString(matrix[i, j]);
                                 button.Font = new Font("Segoe UI", 16);
@@ -110,23 +112,32 @@ namespace Minesweeper_WinForms
                     List<List<int>> openedCells = GameCoreInstance.CheckTiles(row, column, new List<List<int>> { });
                     foreach (List<int> coords in openedCells)
                     {
-                        Button button = (Button)FieldTable.GetControlFromPosition(coords[1], coords[0]);
-                        button.Text = Convert.ToString(matrix[coords[0], coords[1]]);
-                        button.Enabled = false;
+                        button = (Button)FieldTable.GetControlFromPosition(coords[1], coords[0]);
+                        button.BackColor = Color.LightGray;
+                        if (matrix[coords[0], coords[1]] != 0)
+                            button.Text = Convert.ToString(matrix[coords[0], coords[1]]);
+                        GameCoreInstance.DisabledTiles += 1;
                     }
                 }
             }
             else if (e.Button == MouseButtons.Right)
             {
-                Button button = (Button)FieldTable.GetControlFromPosition(column, row);
+                button = (Button)FieldTable.GetControlFromPosition(column, row);
                 if (button.Image == null)
                 {
                     button.Image = Resources.flag;
+                    GameCoreInstance.DisabledTiles += 1;
                 }
                 else
                 {
                     button.Image = null;
+                    GameCoreInstance.DisabledTiles -= 1;
                 }
+            }
+
+            if (GameCoreInstance.CheckGameWon())
+            {
+                MessageBox.Show("You won!");
             }
         }
 
