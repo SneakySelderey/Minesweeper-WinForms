@@ -15,6 +15,8 @@ namespace Minesweeper_WinForms
         public int MatrixSize { get; set; }
         public int MinesNum { get; set; }
         public int DisabledTiles { get; set; }
+        public int FlagsCounter { get; set; }
+        public bool GameWonFlag { get; set; }
 
         internal Core(int matrixSize, int minesNum) // size of matrix (n * n) and number of mines on the field
         {
@@ -24,6 +26,8 @@ namespace Minesweeper_WinForms
 
         internal void GenerateMatrix()
         {
+            GameWonFlag = false;
+            FlagsCounter = MinesNum;
             Random rnd = new();
             Matrix = new int[MatrixSize, MatrixSize];
             MatrixEnabledDisabled = new int[MatrixSize, MatrixSize];

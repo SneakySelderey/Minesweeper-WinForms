@@ -34,6 +34,7 @@ namespace Minesweeper_WinForms
 
         private void GameForm_Load(object sender, EventArgs e) // Initialize timer when form loads
         {
+            FlagsCountLabel.Text = $"Mines left: {Convert.ToString(GameCoreInstance.FlagsCounter)}";
             float cellSize = 100 / GameCoreInstance.MatrixSize; // calculate a cell size in percents
             var rowStyles = FieldTable.RowStyles;
             var columnStyles = FieldTable.ColumnStyles;
@@ -120,23 +121,29 @@ namespace Minesweeper_WinForms
                     }
                 }
             }
-            else if (e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right && button.BackColor != Color.LightGray && button.BackColor != Color.Red && GameCoreInstance.GameWonFlag == false)
             {
                 button = (Button)FieldTable.GetControlFromPosition(column, row);
                 if (button.Image == null)
                 {
                     button.Image = Resources.flag;
                     GameCoreInstance.DisabledTiles += 1;
+                    GameCoreInstance.FlagsCounter -= 1;
+                    FlagsCountLabel.Text = $"Mines left: {Convert.ToString(GameCoreInstance.FlagsCounter)}";
                 }
                 else
                 {
                     button.Image = null;
                     GameCoreInstance.DisabledTiles -= 1;
+                    GameCoreInstance.FlagsCounter += 1;
+                    FlagsCountLabel.Text = $"Mines left: {Convert.ToString(GameCoreInstance.FlagsCounter)}";
                 }
             }
 
-            if (GameCoreInstance.CheckGameWon())
+            if (GameCoreInstance.CheckGameWon() && GameCoreInstance.GameWonFlag == false)
             {
+                Timer.Stop();
+                GameCoreInstance.GameWonFlag = true;
                 MessageBox.Show("You won!");
             }
         }
