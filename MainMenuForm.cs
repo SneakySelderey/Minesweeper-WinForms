@@ -18,11 +18,15 @@ namespace Minesweeper_WinForms
             {
                 if (matrixSizeInt > 0 && matrixSizeInt < 20 && minesNumInt > 0 && minesNumInt < matrixSizeInt * matrixSizeInt)
                 {
-                    Core gameCore = new(matrixSizeInt, minesNumInt);  // if game setting were entered correctly, start the game
-                    gameCore.GenerateMatrix();
-                    Form gameForm = new GameForm(this);
+                    Core gameCoreInstance = new(matrixSizeInt, minesNumInt); // if game setting were entered correctly, start the game
+                    gameCoreInstance.GenerateMatrix();
+                    Form gameForm = new GameForm(this, gameCoreInstance);
                     gameForm.Show();
                     Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Wrong game settings!");
                 }
             }
         }
